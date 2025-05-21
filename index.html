@@ -42,34 +42,58 @@
     .show {
       opacity: 1;
     }
+
+    .music-button {
+      background: white;
+      color: black;
+      border: none;
+      padding: 10px 20px;
+      font-size: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .music-button:hover {
+      background: #ddd;
+    }
   </style>
 </head>
 <body>
 
-  <div class="container">
-    <img src="icanme.jpeg" alt="Us ❤️" class="photo" id="photo" />
+<div class="container">
+  <img src="icanme.jpeg" alt="Us ❤️" class="photo" id="photo" />
 
-    <div class="message" id="message1">Good Morning Melisa Jane</div>
-    <div class="message" id="message2">Have A Nice Day Yahh</div>
-    <div class="message" id="message3">I Love u soooooo muchhh</div>
-    <div class="message" id="message4">God Bless You Sayangkuu ❤️</div>
-  </div>
+  <div class="message" id="message1">Good Morning Melisa Jane</div>
+  <div class="message" id="message2">Have A Nice Day Yahh</div>
+  <div class="message" id="message3">I Love u soooooo muchhh</div>
+  <div class="message" id="message4">God Bless You Sayangkuu ❤️</div>
 
-  <script>
-    const delays = [5000, 6500, 8000, 9500];
-    const messages = [
-      document.getElementById("message1"),
-      document.getElementById("message2"),
-      document.getElementById("message3"),
-      document.getElementById("message4")
-    ];
+  <!-- Tombol Play Musik jika autoplay diblok -->
+  <button class="music-button" onclick="document.getElementById('bgMusic').play()">Play Music 🎵</button>
+</div>
 
-    messages.forEach((msg, i) => {
-      setTimeout(() => {
-        msg.classList.add("show");
-      }, delays[i]);
-    });
-  </script>
+<!-- Musik Latar Romantis (Gratis dari Pixabay) -->
+<audio id="bgMusic" autoplay loop>
+  <source src="https://cdn.pixabay.com/audio/2022/03/23/audio_655d9b9b2c.mp3" type="audio/mpeg" />
+  Your browser does not support the audio element.
+</audio>
+
+<script>
+  const delays = [5000, 6500, 8000, 9500];
+  const messages = [
+    document.getElementById("message1"),
+    document.getElementById("message2"),
+    document.getElementById("message3"),
+    document.getElementById("message4")
+  ];
+
+  messages.forEach((msg, i) => {
+    setTimeout(() => {
+      msg.classList.add("show");
+    }, delays[i]);
+  });
+</script>
 
 </body>
 </html>
