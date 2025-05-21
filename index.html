@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>For My Love ❤️</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      overflow-y: auto;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .photo {
+      width: 100%;
+      height: auto;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+      margin-bottom: 30px;
+    }
+
+    .message {
+      opacity: 0;
+      font-size: 1.8rem;
+      margin-bottom: 30px;
+      text-align: center;
+      transition: opacity 1s ease;
+    }
+
+    .show {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <img src="icanme.jpeg" alt="Us ❤️" class="photo" id="photo" />
+
+    <div class="message" id="message1">Good Morning Melisa Jane</div>
+    <div class="message" id="message2">Have A Nice Day Yahh</div>
+    <div class="message" id="message3">I Love u soooooo muchhh</div>
+    <div class="message" id="message4">God Bless You Sayangkuu ❤️</div>
+  </div>
+
+  <script>
+    const delays = [5000, 6500, 8000, 9500];
+    const messages = [
+      document.getElementById("message1"),
+      document.getElementById("message2"),
+      document.getElementById("message3"),
+      document.getElementById("message4")
+    ];
+
+    messages.forEach((msg, i) => {
+      setTimeout(() => {
+        msg.classList.add("show");
+      }, delays[i]);
+    });
+  </script>
+
+</body>
+</html>
