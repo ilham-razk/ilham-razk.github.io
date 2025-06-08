@@ -2,48 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>For My Love ❤️</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login for My Love</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>❤️</text></svg>">
   <style>
-    html, body {
+    body {
       margin: 0;
       padding: 0;
       background: black;
       color: white;
       font-family: 'Segoe UI', sans-serif;
-      overflow-y: auto;
-    }
-
-    .container {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
+      height: 100vh;
     }
 
-    .photo {
-      width: 100%;
-      height: auto;
-      border-radius: 20px;
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
-      margin-bottom: 30px;
-    }
-
-    .message {
-      opacity: 0;
-      font-size: 1.8rem;
-      margin-bottom: 30px;
+    .login-box {
+      background: #222;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
       text-align: center;
-      transition: opacity 1s ease;
+      width: 300px;
     }
 
-    .show {
-      opacity: 1;
+    .login-box h2 {
+      margin-bottom: 20px;
     }
 
-    .music-button {
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 1rem;
+    }
+
+    button {
       background: white;
       color: black;
       border: none;
@@ -55,44 +52,40 @@
       margin-top: 10px;
     }
 
-    .music-button:hover {
+    button:hover {
       background: #ddd;
+    }
+
+    .error {
+      color: red;
+      margin-top: 10px;
+      display: none;
     }
   </style>
 </head>
 <body>
 
-<div class="container">
-  <img src="icanme.jpeg" alt="Us ❤️" class="photo" id="photo" />
-
-  <div class="message" id="message1">Good Morning Melisa Jane</div>
-  <div class="message" id="message2">Happy Sunday Sayangku !!!</div>
-  <div class="message" id="message3">I Love u soooooo muchhh</div>
-  <div class="message" id="message4">God Bless You Sayangkuu ❤️</div>
-
-  <button class="music-button" onclick="document.getElementById('bgMusic').play()">Play Music 🎵</button>
-  <button class="music-button" onclick="window.location.href='rundown.html'">Lihat Rundown 📋</button>
+<div class="login-box">
+  <h2>Login for Melisa 💖</h2>
+  <label for="username"></label><input type="text" id="username" placeholder="Username" />
+  <label for="password"></label><input type="password" id="password" placeholder="Password" />
+  <button onclick="login()">Login</button>
+  <div class="error" id="error">Username atau password salah sayang😢</div>
 </div>
 
-<audio id="bgMusic" autoplay loop>
-  <source src="apt-bruno-mars.mp3" type="audio/mpeg" />
-  Your browser does not support the audio element.
-</audio>
-
 <script>
-  const delays = [5000, 6500, 8000, 9500];
-  const messages = [
-    document.getElementById("message1"),
-    document.getElementById("message2"),
-    document.getElementById("message3"),
-    document.getElementById("message4")
-  ];
+  function login() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
 
-  messages.forEach((msg, i) => {
-    setTimeout(() => {
-      msg.classList.add("show");
-    }, delays[i]);
-  });
+    // Ganti username/password sesuai keinginan kamu
+    if (username === "mellisajanee" && password === "icacantik") {
+      localStorage.setItem("playMusic", "yes"); // set flag agar musik diputar
+      window.location.href = "home.html";
+    } else {
+      document.getElementById("error").style.display = "block";
+    }
+  }
 </script>
 
 </body>

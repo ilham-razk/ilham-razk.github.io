@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>For My Love ❤️</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>❤️</text></svg>">
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #ffe4e1, #ffccd5);
+            color: #4a1c1c;
+            font-family: 'Segoe UI', sans-serif;
+            overflow-y: auto;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .photo {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .message {
+            opacity: 0;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            text-align: center;
+            transition: opacity 1s ease;
+        }
+
+        .show {
+            opacity: 1;
+        }
+
+        .music-button {
+            background: white;
+            color: black;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .music-button:hover {
+            background: #ddd;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 800px;
+            color: #333;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .day-label {
+            background-color: #2196F3;
+            color: white;
+            font-weight: bold;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="bagel-coffee.jpeg" alt="Us ❤️" class="photo" id="photo" />
+
+    <div class="message" id="message1">Good Night Melisa Jane</div>
+    <div class="message" id="message2">Happy A Nice Dream Sengku!!!</div>
+    <div class="message" id="message3">I Love u soooooo muchhh</div>
+    <div class="message" id="message4">God Bless You Sayangkuu ❤️</div>
+
+    <button class="music-button" onclick="document.getElementById('bgMusic').play()">Play Music 🎵</button>
+    <button class="music-button" onclick="showRundown()">Lihat Rundown 📋</button>
+    <button class="music-button" onclick="logout()">Logout 🔓</button>
+</div>
+
+<audio id="bgMusic" autoplay loop>
+    <source src="apt-bruno-mars.mp3" type="audio/mpeg" />
+    Your browser does not support the audio element.
+</audio>
+
+<!-- Modal Rundown -->
+<div id="rundownModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="hideRundown()">&times;</span>
+        <h2>Rundown Bandung</h2>
+        <table>
+            <tr><th>Hari</th><th>Jam</th><th>Lokasi</th></tr>
+            <tr><td class="day-label" rowspan="6">Day 1</td><td>09:00</td><td>Mega Bekasi</td></tr>
+            <tr><td>11:00</td><td>Bandung</td></tr>
+            <tr><td>12:00</td><td>Kilogram</td></tr>
+            <tr><td>15:00</td><td>Kusuma Matcha</td></tr>
+            <tr><td>16:00</td><td>Check in</td></tr>
+            <tr><td>18:00</td><td>Sudiran Street</td></tr>
+            <tr><td class="day-label" rowspan="6">Day 2</td><td>09:00</td><td>Mandi</td></tr>
+            <tr><td>12:00</td><td>Check out</td></tr>
+            <tr><td>12:30</td><td>Bebek Borme</td></tr>
+            <tr><td>14:30</td><td>Drunk Baker</td></tr>
+            <tr><td>16:30</td><td>Zuko</td></tr>
+            <tr><td>18:30</td><td>Stasiun Bandung</td></tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    const delays = [5000, 6500, 8000, 9500];
+    const messages = [
+        document.getElementById("message1"),
+        document.getElementById("message2"),
+        document.getElementById("message3"),
+        document.getElementById("message4")
+    ];
+
+    messages.forEach((msg, i) => {
+        setTimeout(() => {
+            msg.classList.add("show");
+        }, delays[i]);
+    });
+
+    window.addEventListener("load", () => {
+        const shouldPlay = localStorage.getItem("playMusic");
+        if (shouldPlay === "yes") {
+            const music = document.getElementById("bgMusic");
+            music.play().catch(e => {
+                console.warn("Autoplay gagal, harus interaksi dulu:", e);
+            });
+            localStorage.removeItem("playMusic");
+        }
+    });
+
+    function showRundown() {
+        document.getElementById('rundownModal').style.display = 'block';
+    }
+
+    function hideRundown() {
+        document.getElementById('rundownModal').style.display = 'none';
+    }
+
+    function logout() {
+        localStorage.removeItem("playMusic");
+        window.location.href = "index.html"; // atau halaman login kamu
+    }
+</script>
+</body>
+</html>
