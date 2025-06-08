@@ -80,12 +80,15 @@
 
     // Ganti username/password sesuai keinginan kamu
     if (username === "mellisajanee" && password === "icacantik") {
+      localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("playMusic", "yes"); // set flag agar musik diputar
       window.location.href = "home.html";
     } else if (username === "Ichaloveilham" && password === "Ilhamloveicha") {
+      localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("playMusic", "yes"); // set flag agar musik diputar
       window.location.href = "home.html";
     } else if (username === "Ilhamloveicha" && password === "Ichaloveilham") {
+      localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("playMusic", "yes"); // set flag agar musik diputar
       window.location.href = "home.html";
     } else {
