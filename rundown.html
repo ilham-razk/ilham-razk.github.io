@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Rundown Bandung</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-top: 60px;
+    }
+
+    table {
+      width: 70%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      background-color: #fff;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: center;
+      border-bottom: 1px solid #ddd;
+    }
+
+    th {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .day-label {
+      background-color: #2196F3;
+      color: white;
+      font-weight: bold;
+      vertical-align: middle;
+    }
+
+    /* Tombol back */
+    .back-button {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background-color: transparent;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #333;
+    }
+
+    .back-button:hover {
+      color: #2196F3;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Tombol kembali -->
+<button class="back-button" onclick="window.location.href='index.html'">←</button>
+
+<h1>Rundown Bandung</h1>
+
+<table>
+  <tr>
+    <th>Hari</th>
+    <th>Jam</th>
+    <th>Lokasi</th>
+  </tr>
+  <tr>
+    <td class="day-label" rowspan="6">Day 1</td>
+    <td>09:00</td>
+    <td>Mega Bekasi</td>
+  </tr>
+  <tr>
+    <td>11:00</td>
+    <td>Bandung</td>
+  </tr>
+  <tr>
+    <td>12:00</td>
+    <td>Kilogram</td>
+  </tr>
+  <tr>
+    <td>15:00</td>
+    <td>Kusuma Matcha</td>
+  </tr>
+  <tr>
+    <td>16:00</td>
+    <td>Check in</td>
+  </tr>
+  <tr>
+    <td>18:00</td>
+    <td>Sudiran Street</td>
+  </tr>
+  <tr>
+    <td class="day-label" rowspan="6">Day 2</td>
+    <td>09:00</td>
+    <td>Mandi</td>
+  </tr>
+  <tr>
+    <td>12:00</td>
+    <td>Check out</td>
+  </tr>
+  <tr>
+    <td>12:30</td>
+    <td>Bebek Borme</td>
+  </tr>
+  <tr>
+    <td>14:30</td>
+    <td>Drunk Baker</td>
+  </tr>
+  <tr>
+    <td>16:30</td>
+    <td>Zuko</td>
+  </tr>
+  <tr>
+    <td>18:30</td>
+    <td>Stasiun Bandung</td>
+  </tr>
+</table>
+
+</body>
+</html>
