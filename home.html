@@ -118,6 +118,32 @@
             background-color: #4CAF50;
             color: white;
         }
+
+        #calendar table {
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        #calendar th, #calendar td {
+            border: 1px solid #ccc;
+            padding: 5px;
+            text-align: center;
+        }
+
+        #calendar .today {
+            background-color: #4CAF50;
+            color: white;
+            font-weight: bold;
+        }
+
+        #calendar .highlight {
+            background-color: #f06292;
+            color: white;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -133,6 +159,8 @@
     <button class="music-button" onclick="document.getElementById('bgMusic').play()">Play Music 🎵</button>
     <button class="music-button" onclick="showRundown()">Lihat Rundown 📋</button>
     <button class="music-button" onclick="logout()">Logout 🔓</button>
+    <div id="countdown" style="margin-top: 30px; text-align: center; font-size: 1.5rem;"></div>
+    <div id="calendar" style="margin-top: 20px;"></div>
 </div>
 
 <audio id="bgMusic" autoplay loop>
@@ -226,6 +254,68 @@
         localStorage.removeItem("playMusic");
         window.location.href = "index.html";
     }
+
+    // Countdown logic
+    function updateCountdown() {
+        const targetDate = new Date("2025-06-13T09:00:00");
+        const now = new Date();
+        const diff = targetDate - now;
+
+        if (diff <= 0) {
+            document.getElementById("countdown").innerText = "It's time! 💕";
+            return;
+        }
+
+        const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const hrs = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const mins = Math.floor((diff / (1000 * 60)) % 60);
+        const secs = Math.floor((diff / 1000) % 60);
+
+        document.getElementById("countdown").innerText =
+            `Countdown to 13 Juni 2025 09:00 👉 ${days}d ${hrs}h ${mins}m ${secs}s`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // Calendar logic
+    function renderCalendar() {
+        const targetDay = 13;
+        const targetMonth = 5; // Juni (0-based, so 5 = June)
+        const targetYear = 2025;
+
+        const now = new Date();
+        const month = now.getMonth();
+        const year = now.getFullYear();
+
+        const firstDay = new Date(year, month, 1).getDay();
+        const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+        let table = '<table><tr>';
+        const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        days.forEach(day => table += `<th>${day}</th>`);
+        table += '</tr><tr>';
+
+        for (let i = 0; i < firstDay; i++) table += '<td></td>';
+
+        for (let d = 1; d <= daysInMonth; d++) {
+            const currentDate = new Date(year, month, d);
+            let className = '';
+
+            if (d === now.getDate() && month === now.getMonth() && year === now.getFullYear()) {
+                className = 'today';
+            } else if (d === targetDay && month === targetMonth && year === targetYear) {
+                className = 'highlight';
+            }
+
+            table += `<td class="${className}">${d}</td>`;
+
+            if ((firstDay + d) % 7 === 0) table += '</tr><tr>';
+        }
+
+        table += '</tr></table>';
+        document.getElementById("calendar").innerHTML = `<h3>Kalender ${now.toLocaleString('default', { month: 'long' })} ${year}</h3>` + table;
+    }
+    renderCalendar();
 </script>
 </body>
 </html>
