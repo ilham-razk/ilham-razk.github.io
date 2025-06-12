@@ -144,12 +144,106 @@
             color: white;
             font-weight: bold;
         }
+
+        .video-section {
+            width: 100%;
+            max-width: 720px;
+            margin-top: 30px;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            max-width: 500px; /* Ukuran lebih kecil */
+            margin: 0 auto 30px auto;
+            overflow: hidden;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .carousel {
+            position: relative;
+            width: 100%;
+            height: auto;
+        }
+
+        .carousel-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            border-radius: 20px;
+        }
+
+        .carousel-image.active {
+            opacity: 1;
+            position: relative;
+            z-index: 1;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(255,255,255,0.7);
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 10px;
+            z-index: 2;
+        }
+
+        .carousel-btn.left {
+            left: 10px;
+        }
+
+        .carousel-btn.right {
+            right: 10px;
+        }
+
+        .carousel-btn:hover {
+            background-color: rgba(255,255,255,0.9);
+        }
+
+        .carousel-wrapper {
+            max-width: 500px;
+            margin: 20px auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        .carousel-video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 20px;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <img src="bagel-coffee.jpeg" alt="Us ❤️" class="photo" id="photo" />
+    <div class="carousel-wrapper">
+        <button class="carousel-btn left" onclick="prevImage()">&#10094;</button>
+
+        <div class="carousel" id="carousel">
+            <img class="carousel-image" src="image/bagel-coffee.jpeg" alt="Foto 1" />
+            <img class="carousel-image" src="image/photo-2.jpeg" alt="Foto 2" />
+            <img class="carousel-image" src="image/photo-3.jpeg" alt="Foto 3" />
+            <img class="carousel-image" src="image/photo-4.jpeg" alt="Foto 4" />
+            <img class="carousel-image" src="image/photo-5.jpeg" alt="Foto 5" />
+            <img class="carousel-image" src="image/photo-6.jpeg" alt="Foto 6" />
+            <img class="carousel-image" src="image/photo-7.jpeg" alt="Foto 7" />
+            <img class="carousel-image" src="image/photo-8.jpeg" alt="Foto 8" />
+            <img class="carousel-image" src="image/photo-9.jpeg" alt="Foto 9" />
+            <img class="carousel-image" src="image/photo-10.jpeg" alt="Foto 10" />
+        </div>
+
+        <button class="carousel-btn right" onclick="nextImage()">&#10095;</button>
+    </div>
 
     <div class="message" id="message1">Good Night Melisa Jane</div>
     <div class="message" id="message2">Happy A Nice Dream Sengku!!!</div>
@@ -157,8 +251,22 @@
     <div class="message" id="message4">God Bless You Sayangkuu ❤️</div>
 
     <button class="music-button" onclick="document.getElementById('bgMusic').play()">Play Music 🎵</button>
+    <button class="music-button" onclick="stopMusic()">Stop Music 🔇</button>
     <button class="music-button" onclick="showRundown()">Lihat Rundown 📋</button>
     <button class="music-button" onclick="logout()">Logout 🔓</button>
+
+    <!-- Video -->
+    <div class="video-section">
+        <h3 style="text-align:center; margin-top: 40px;">💗 Our Memory 💗</h3>
+
+        <div class="carousel-wrapper">
+            <video controls class="carousel-video">
+                <source src="video/love-video.mp4" type="video/mp4">
+                Browser kamu tidak mendukung video.
+            </video>
+        </div>
+    </div>
+
     <div id="countdown" style="margin-top: 30px; text-align: center; font-size: 1.5rem;"></div>
     <div id="calendar" style="margin-top: 20px;"></div>
 </div>
@@ -316,6 +424,46 @@
         document.getElementById("calendar").innerHTML = `<h3>Kalender ${now.toLocaleString('default', { month: 'long' })} ${year}</h3>` + table;
     }
     renderCalendar();
+
+    function stopMusic() {
+        const music = document.getElementById("bgMusic");
+        music.pause();
+        music.currentTime = 0; // mulai dari awal kalau nanti diputar lagi
+    }
+
+    let currentIndex = 0;
+    const images = document.querySelectorAll(".carousel-image");
+    let carouselTimer;
+
+    function showImage(index) {
+        images.forEach((img, i) => {
+            img.classList.remove("active");
+            if (i === index) img.classList.add("active");
+        });
+    }
+
+    function nextImage() {
+        currentIndex = (currentIndex + 1) % images.length;
+        showImage(currentIndex);
+        resetCarouselTimer();
+    }
+
+    function prevImage() {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(currentIndex);
+        resetCarouselTimer();
+    }
+
+    function resetCarouselTimer() {
+        clearInterval(carouselTimer);
+        carouselTimer = setInterval(nextImage, 5000); // 5 detik
+    }
+
+    // Inisialisasi
+    if (images.length > 0) {
+        showImage(currentIndex);
+        carouselTimer = setInterval(nextImage, 5000);
+    }
 </script>
 </body>
 </html>
