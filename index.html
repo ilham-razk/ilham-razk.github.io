@@ -1,115 +1,220 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login for My Love</title>
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>❤️</text></svg>">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: black;
-      color: white;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
-    }
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Will You Be My Valentine?</title>
 
-    .clock {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      letter-spacing: 2px;
-    }
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
-    .login-box {
-      background: #222;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
-      text-align: center;
-      width: 300px;
-    }
+    <style>
+        :root {
+            --pink1:#ffe6f0;
+            --pink2:#ffb6d5;
+            --accent:#ff2f7d;
+        }
 
-    .login-box h2 {
-      margin-bottom: 20px;
-    }
+        * { box-sizing:border-box; }
 
-    input[type="text"], input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border-radius: 8px;
-      border: none;
-      font-size: 1rem;
-    }
+        body {
+            margin:0;
+            min-height:100vh;
+            display:grid;
+            place-items:center;
+            background:radial-gradient(circle at top,var(--pink1),var(--pink2));
+            font-family:"Poppins",system-ui,sans-serif;
+            overflow:hidden;
+        }
 
-    button {
-      background: white;
-      color: black;
-      border: none;
-      padding: 10px 20px;
-      font-size: 1rem;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-      margin-top: 10px;
-    }
+        /* Floating love card */
+        .card {
+            width:min(720px,92vw);
+            background:rgba(255,255,255,.85);
+            backdrop-filter:blur(14px);
+            padding:32px;
+            border-radius:28px;
+            text-align:center;
+            box-shadow:0 30px 80px rgba(255,47,125,.35);
+            animation:float 6s ease-in-out infinite;
+        }
 
-    button:hover {
-      background: #ddd;
-    }
+        @keyframes float {
+            0%,100%{ transform:translateY(0); }
+            50%{ transform:translateY(-10px); }
+        }
 
-    .error {
-      color: red;
-      margin-top: 10px;
-      display: none;
-    }
-  </style>
+        /* Heart */
+        .heart {
+            font-size:80px;
+            animation:pulse 1.6s infinite;
+        }
+
+        @keyframes pulse {
+            0%{ transform:scale(1); }
+            50%{ transform:scale(1.15); }
+            100%{ transform:scale(1); }
+        }
+
+        h1 {
+            font-size:clamp(26px,4vw,42px);
+            margin:14px 0;
+        }
+
+        p {
+            opacity:.8;
+            margin-bottom:24px;
+        }
+
+        /* Button zone */
+        .zone {
+            position:relative;
+            height:150px;
+            width:100%;
+        }
+
+        button {
+            position:absolute;
+            top:50%;
+            transform:translateY(-50%);
+            padding:16px 28px;
+            font-size:18px;
+            font-weight:700;
+            border:none;
+            border-radius:999px;
+            cursor:pointer;
+            box-shadow:0 10px 25px rgba(0,0,0,.15);
+        }
+
+        #yes {
+            left:20%;
+            background:var(--accent);
+            color:white;
+            animation:yesGlow 2s infinite;
+        }
+
+        @keyframes yesGlow {
+            0%,100%{ box-shadow:0 0 0 rgba(255,47,125,0); }
+            50%{ box-shadow:0 0 30px rgba(255,47,125,.7); }
+        }
+
+        #no {
+            left:60%;
+            background:#eee;
+        }
+
+        .hint {
+            margin-top:10px;
+            font-size:13px;
+            opacity:.7;
+        }
+
+        .result {
+            display:none;
+            animation:pop .4s ease;
+        }
+
+        @keyframes pop {
+            from{ opacity:0; transform:scale(.95); }
+            to{ opacity:1; transform:scale(1); }
+        }
+
+        canvas {
+            position:fixed;
+            inset:0;
+            pointer-events:none;
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="clock" id="clock">00:00:00</div>
+<canvas id="confetti"></canvas>
 
-<div class="login-box">
-  <h2>Login for Melisa 💖</h2>
-  <label for="username"></label><input type="text" id="username" placeholder="Username" />
-  <label for="password"></label><input type="password" id="password" placeholder="Password" />
-  <button onclick="login()">Login</button>
-  <div class="error" id="error">Username atau password salah sayang😢</div>
+<div class="card">
+    <div class="heart">❤️</div>
+    <h1>Melisa Jane Jacob</h1>
+    <p>From the moment I met you, my world felt warmer ✨</p>
+    <h1>Will you be my Valentine?</h1>
+
+    <div class="zone" id="zone">
+        <button id="yes">Yes 💖</button>
+        <button id="no">No 🙈</button>
+    </div>
+
+    <div class="hint" id="hint">You can’t run from destiny 😌</div>
+
+    <div class="result" id="result">
+        <h1>I knew it 💕</h1>
+        <p>Thank you for choosing me.
+            I promise to love you more every single day 🤍</p>
+    </div>
 </div>
 
 <script>
-  function login() {
-    const username = document.getElementById("username").value.trim();
-    const password = document.getElementById("password").value.trim();
+    const zone = document.getElementById("zone");
+    const no = document.getElementById("no");
+    const yes = document.getElementById("yes");
+    const hint = document.getElementById("hint");
+    const result = document.getElementById("result");
+    const canvas = document.getElementById("confetti");
 
-    if (
-            (username === "mellisajanee" && password === "icacantik") ||
-            (username === "Ichaloveilham" && password === "Ilhamloveicha") ||
-            (username === "Ilhamloveicha" && password === "Ichaloveilham")
-    ) {
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("playMusic", "yes");
-      window.location.href = "home.html";
-    } else {
-      document.getElementById("error").style.display = "block";
-    }
-  }
+    const confettiFx = confetti.create(canvas,{ resize:true });
 
-  function updateClock() {
-    const now = new Date();
-    const hours = String(now.getHours()).padStart(2, '0');
-    const minutes = String(now.getMinutes()).padStart(2, '0');
-    const seconds = String(now.getSeconds()).padStart(2, '0');
-    document.getElementById("clock").textContent = `${hours}:${minutes}:${seconds}`;
-  }
+    let scale = 1;
+    let hints = [
+        "No? are you sure? 🥺",
+        "My heart says yes 💗",
+        "Don’t break my heart 😭",
+        "Yes looks prettier 😌",
+        "Okay… I’ll wait 💕"
+    ];
+    let h = 0;
 
-  setInterval(updateClock, 1000);
-  updateClock(); // inisialisasi awal
+    zone.addEventListener("pointermove", e => {
+        const b = no.getBoundingClientRect();
+        const d = Math.hypot(
+            (b.left+b.width/2)-e.clientX,
+            (b.top+b.height/2)-e.clientY
+        );
+
+        if(d < 140){
+            const z = zone.getBoundingClientRect();
+            no.style.left = Math.random()*(z.width-b.width)+"px";
+            no.style.top  = Math.random()*(z.height-b.height)+"px";
+
+            scale = Math.min(2.2, scale+.1);
+            yes.style.transform = `translateY(-50%) scale(${scale})`;
+
+            hint.textContent = hints[h++ % hints.length];
+            navigator.vibrate?.(30);
+        }
+    });
+
+    yes.onclick = () => {
+        zone.style.display = "none";
+        hint.style.display = "none";
+        result.style.display = "block";
+
+        const end = Date.now()+1500;
+        (function frame(){
+            confettiFx({
+                particleCount:12,
+                spread:100,
+                startVelocity:40,
+                origin:{x:Math.random(), y:Math.random()*0.3}
+            });
+            if(Date.now()<end) requestAnimationFrame(frame);
+        })();
+
+        confettiFx({
+            particleCount:300,
+            spread:160,
+            startVelocity:60,
+            origin:{x:.5,y:.6}
+        });
+
+        navigator.vibrate?.([60,30,60]);
+    };
 </script>
 
 </body>
