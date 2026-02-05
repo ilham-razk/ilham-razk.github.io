@@ -254,6 +254,23 @@
 
         navigator.vibrate?.([60,30,60]);
     };
+
+    (function () {
+        const ua = navigator.userAgent || navigator.vendor || window.opera;
+
+        const isMobileUA =
+            /android|iphone|ipad|ipod|opera mini|iemobile/i.test(ua);
+
+        const isSmallScreen = window.innerWidth <= 1024;
+
+        if (isMobileUA || isSmallScreen) {
+            const block = document.getElementById("mobileBlock");
+            if (block) {
+                block.style.display = "grid";
+                document.body.style.overflow = "hidden";
+            }
+        }
+    })();
 </script>
 
 </body>
